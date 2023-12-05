@@ -37,7 +37,8 @@ def plot_gene(gene, gff, classification):
     gene_pb_id = '.'.join(isoforms_ids[0].split('.')[:-1])
     
     # Extracting exons
-    attributes = {f'gene_id "{gene_pb_id}"; transcript_id "{iso}";' : iso for iso in isoforms_ids}
+    attributes = {f'gene_id "{".".join(iso.split(".")[:-1])}"; transcript_id "{iso}";' : iso for iso in isoforms_ids}
+    #attributes = {f'gene_id "{gene_pb_id}"; transcript_id "{iso}";' : iso for iso in isoforms_ids}
     gene_exons = gff.loc[(gff.attribute.isin(attributes.keys())) & (gff.feature == 'exon'),].copy()
     gene_exons['isoform'] = [attributes[iso] for iso in gene_exons.attribute]
     
